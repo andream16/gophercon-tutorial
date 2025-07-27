@@ -1,0 +1,9 @@
+version: "2"
+sql:
+- engine: "sqlite"
+  queries: "store/sqlc/query.sql"
+  schema: "store/sqlc/migrations"
+  gen:
+    go:
+      package: "sqlc"
+      out: "store/sqlc/gen"
