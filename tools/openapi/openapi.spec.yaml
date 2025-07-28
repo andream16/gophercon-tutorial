@@ -1,0 +1,189 @@
+openapi: 3.0.3
+info:
+  title: Gopher Plushie Store API
+  description: A simple API for managing and purchasing gopher plushies
+  version: 1.0.0
+  contact:
+    name: Gopher Store Support
+    email: support@gopherstore.com
+
+servers:
+  - url: https://api.gopherstore.com/v1
+    description: Production server
+
+paths:
+  /gophers:
+    get:
+      summary: List all available gophers
+      description: Retrieve a list of all gopher plushies currently available in the store
+      operationId: listGophers
+      responses:
+        '200':
+          description: Successfully retrieved list of gophers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Gopher'
+              example:
+                - id: 1
+                  name: "Fluffy"
+                  color: "blue"
+                  price: 24.99
+                - id: 2
+                  name: "Cuddles"
+                  color: "pink"
+                  price: 29.99
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /gophers/{gopherId}/buy:
+    post:
+      summary: Purchase a gopher plushie
+      description: Buy a specific gopher plushie by its ID
+      operationId: buyGopher
+      parameters:
+        - name: gopherId
+          in: path
+          required: true
+          description: The unique identifier of the gopher to purchase
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseRequest'
+            example:
+              quantity: 1
+              customerEmail: "customer@example.com"
+      responses:
+        '200':
+          description: Purchase successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseResponse'
+              example:
+                orderId: "ORD-12345"
+                gopher:
+                  id: 1
+                  name: "Fluffy"
+                  color: "blue"
+                  price: 24.99
+                quantity: 1
+                totalAmount: 24.99
+                status: "confirmed"
+        '400':
+          description: Bad request (invalid input)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Gopher not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Gopher out of stock
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Gopher:
+      type: object
+      required:
+        - id
+        - name
+        - color
+        - price
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier for the gopher
+          example: 1
+        name:
+          type: string
+          description: Name of the gopher plushie
+          example: "Fluffy"
+          maxLength: 50
+        color:
+          type: string
+          description: Color of the gopher plushie
+          example: "blue"
+          enum: ["blue", "pink", "brown", "gray", "white", "black", "green", "purple"]
+        price:
+          type: number
+          format: float
+          description: Price of the gopher plushie in USD
+          example: 24.99
+          minimum: 0.01
+
+    PurchaseRequest:
+      type: object
+      required:
+        - quantity
+        - color
+        - customerEmail
+      properties:
+        quantity:
+          type: integer
+          description: Number of gophers to purchase
+          example: 1
+          minimum: 1
+          maximum: 10
+        color:
+          type: string
+          description: Color of the gopher plushie
+          example: "blue"
+          enum: [ "blue", "pink", "brown", "gray", "white", "black", "green", "purple" ]
+        customerEmail:
+          type: string
+          format: email
+          description: Customer's email address
+          example: "customer@example.com"
+
+    PurchaseResponse:
+      type: object
+      required:
+        - orderId
+      properties:
+        orderId:
+          type: string
+          description: Unique order identifier
+          example: "ORD-12345"
+
+    Error:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error code
+          example: "GOPHER_NOT_FOUND"
+        message:
+          type: string
+          description: Human-readable error message
+          example: "The requested gopher could not be found"
