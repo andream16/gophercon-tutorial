@@ -1,0 +1,12 @@
+version: v2
+modules:
+- path: proto/greet
+  name: tools/grpc/greet
+  lint:
+    use:
+      - STANDARD
+      - COMMENTS
+      - UNARY_RPC
+      - PACKAGE_NO_IMPORT_CYCLE
+    except:
+      - PACKAGE_DIRECTORY_MATCH
