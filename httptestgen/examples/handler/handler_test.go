@@ -29,19 +29,11 @@ func TestCreateUserHandler(t *testing.T) {
         reqReader = bytes.NewReader(requestBody)
         req := httptest.NewRequestWithContext(ctx, "POST", "/users", reqReader)
 
-        req.Header.Set("Authorization", "Bearer token123")
-
-        req.Header.Set("Content-Type", "application/json")
-
         rr := httptest.NewRecorder()
         CreateUserHandler(rr, req)
 
         if status := rr.Code; status != 201 {
            t.Errorf("CreateUserHandler returned wrong status code: got %v want 201", status)
-        }
-
-        if header := rr.Header().Get("Content-Type"); header != "application/json" {
-           t.Errorf("CreateUserHandler returned wrong Content-Type header: got %v want application/json", header)
         }
 
         expectedBody := `{"message":"User created successfully","user":{"email":"andrea@gitpod.io","id":1,"name":"Andrea"}}`
@@ -83,17 +75,11 @@ func TestCreateUserHandler(t *testing.T) {
         reqReader = bytes.NewReader(requestBody)
         req := httptest.NewRequestWithContext(ctx, "POST", "/users", reqReader)
 
-        req.Header.Set("Content-Type", "application/json")
-
         rr := httptest.NewRecorder()
         CreateUserHandler(rr, req)
 
         if status := rr.Code; status != 400 {
            t.Errorf("CreateUserHandler returned wrong status code: got %v want 400", status)
-        }
-
-        if header := rr.Header().Get("Content-Type"); header != "application/json" {
-           t.Errorf("CreateUserHandler returned wrong Content-Type header: got %v want application/json", header)
         }
 
         expectedBody := `{"code":"INVALID_INPUT","error":"Invalid request"}`
@@ -129,17 +115,11 @@ func TestGetUserHandler(t *testing.T) {
         var reqReader io.Reader = nil
         req := httptest.NewRequestWithContext(ctx, "GET", "/users/123", reqReader)
 
-        req.Header.Set("Authorization", "Bearer token123")
-
         rr := httptest.NewRecorder()
         GetUserHandler(rr, req)
 
         if status := rr.Code; status != 200 {
            t.Errorf("GetUserHandler returned wrong status code: got %v want 200", status)
-        }
-
-        if header := rr.Header().Get("Content-Type"); header != "application/json" {
-           t.Errorf("GetUserHandler returned wrong Content-Type header: got %v want application/json", header)
         }
 
         expectedBody := `{"email":"jane@example.com","id":123,"name":"Jane Smith"}`
@@ -171,17 +151,11 @@ func TestGetUserHandler(t *testing.T) {
         var reqReader io.Reader = nil
         req := httptest.NewRequestWithContext(ctx, "GET", "/users/999", reqReader)
 
-        req.Header.Set("Authorization", "Bearer token123")
-
         rr := httptest.NewRecorder()
         GetUserHandler(rr, req)
 
         if status := rr.Code; status != 404 {
            t.Errorf("GetUserHandler returned wrong status code: got %v want 404", status)
-        }
-
-        if header := rr.Header().Get("Content-Type"); header != "application/json" {
-           t.Errorf("GetUserHandler returned wrong Content-Type header: got %v want application/json", header)
         }
 
         expectedBody := `{"code":"USER_NOT_FOUND","error":"User not found"}`
@@ -222,10 +196,6 @@ func TestHealthCheckHandler(t *testing.T) {
 
         if status := rr.Code; status != 200 {
            t.Errorf("HealthCheckHandler returned wrong status code: got %v want 200", status)
-        }
-
-        if header := rr.Header().Get("Content-Type"); header != "application/json" {
-           t.Errorf("HealthCheckHandler returned wrong Content-Type header: got %v want application/json", header)
         }
 
         expectedBody := `{"status":"ok","timestamp":"2024-01-01T00:00:00Z"}`

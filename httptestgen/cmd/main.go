@@ -19,16 +19,14 @@ type (
 	}
 
 	Request struct {
-		Method  string            `json:"method,omitempty"`
-		Path    string            `json:"path,omitempty"`
-		Body    map[string]any    `json:"body,omitempty"`
-		Headers map[string]string `json:"headers,omitempty"`
+		Method string         `json:"method,omitempty"`
+		Path   string         `json:"path,omitempty"`
+		Body   map[string]any `json:"body,omitempty"`
 	}
 
 	Response struct {
-		StatusCode string            `json:"status_code"`
-		Body       map[string]any    `json:"body,omitempty"`
-		Headers    map[string]string `json:"headers,omitempty"`
+		StatusCode string         `json:"status_code"`
+		Body       map[string]any `json:"body,omitempty"`
 	}
 
 	// EnhancedTestCase includes type information and field mappings

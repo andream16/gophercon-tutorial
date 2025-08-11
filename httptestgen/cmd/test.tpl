@@ -37,10 +37,6 @@ func Test{{$funcSpec.Func}}(t *testing.T) {
 {{- end}}
 {{- end}}
         req := httptest.NewRequestWithContext(ctx, "{{if $testCase.Request.Method}}{{$testCase.Request.Method}}{{else}}GET{{end}}", "{{if $testCase.Request.Path}}{{$testCase.Request.Path}}{{else}}/{{end}}", reqReader)
-{{- range $key, $value := $testCase.Request.Headers}}
-
-        req.Header.Set("{{$key}}", "{{$value}}")
-{{- end}}
 
         rr := httptest.NewRecorder()
         {{$funcSpec.Func}}(rr, req)
@@ -48,12 +44,7 @@ func Test{{$funcSpec.Func}}(t *testing.T) {
         if status := rr.Code; status != {{$testCase.Response.StatusCode}} {
            t.Errorf("{{$funcSpec.Func}} returned wrong status code: got %v want {{$testCase.Response.StatusCode}}", status)
         }
-{{- range $key, $value := $testCase.Response.Headers}}
 
-        if header := rr.Header().Get("{{$key}}"); header != "{{$value}}" {
-           t.Errorf("{{$funcSpec.Func}} returned wrong {{$key}} header: got %v want {{$value}}", header)
-        }
-{{- end}}
 {{- if hasBody $testCase.Response.Body}}
 {{- if hasResponseFields $testCase.ResponseFields}}
 
