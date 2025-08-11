@@ -1,6 +1,4 @@
-// This is a complete example for your GopherCon UK workshop
-// It demonstrates parsing comments and generating HTTP handler tests
-
+//go:generate cmd -input=handler.go -output=handler_test.go -testcases=testdata/testcases.json
 package handler
 
 import (
@@ -53,21 +51,18 @@ func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Simulate user creation logic
-	user := User{
-		ID:    1,
-		Name:  req.Name,
-		Email: req.Email,
-	}
-
 	response := CreateUserResponse{
-		User:    user,
+		User: User{
+			ID:    1,
+			Name:  req.Name,
+			Email: req.Email,
+		},
 		Message: "User created successfully",
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(response)
+	_ = json.NewEncoder(w).Encode(response)
 }
 
 // GetUserHandler handles user retrieval requests

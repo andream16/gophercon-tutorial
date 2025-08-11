@@ -1,3 +1,4 @@
+//go:generate go tool mockgen -package gopher_test -source gopher.go -destination gopher_mock_test.go Storer
 package gopher
 
 import (
