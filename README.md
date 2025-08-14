@@ -18,3 +18,6 @@ exercises.
 ## Second part
 
 Extend a real code generation tool in [httptestgen](./httptestgen).
+
+This can be achieved by re-applying [these changes](https://github.com/andream16/gophercon-tutorial/commit/264304b4b8dcbdc093b57c58d78d798589859c84)
+but, I challenge you not to look at them before trying to do ti on your own!
