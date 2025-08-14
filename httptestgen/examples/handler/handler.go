@@ -1,4 +1,4 @@
-//go:generate cmd -input=handler.go -output=handler_test.go -testcases=testdata/testcases.json -request-type=CreateUserRequest
+//go:generate go run ../../cmd -input=handler.go -output=handler_test.go -testcases=testdata/testcases.json -request-type=CreateUserRequest
 package handler
 
 import (

@@ -45,10 +45,6 @@ And generates tests for specified http handlers (`CreateUserHandler`).
 
 # Example usage
 
-```shell
-go install ./cmd
-```
-
 ## CLI
 
 ```shell
@@ -63,5 +59,11 @@ go run ./cmd \
 
 Add this to your target file.
 ```go
-//go:generate cmd -input=handler.go -output=handler_test.go -testcases=testdata/testcases.json -request-type=CreateUserRequest
+//go:generate go run ../path/to/cmd -input=handler.go -output=handler_test.go -testcases=testdata/testcases.json -request-type=CreateUserRequest
+```
+
+Then run:
+
+```sh
+go generate
 ```
