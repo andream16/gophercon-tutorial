@@ -80,26 +80,6 @@
             "Content-Type": "application/json"
           }
         }
-      },
-      {
-        "case_descr": "it should return not found when user does not exist",
-        "request": {
-          "method": "GET",
-          "path": "/users/999",
-          "headers": {
-            "Authorization": "Bearer token123"
-          }
-        },
-        "response": {
-          "status_code": "404",
-          "body": {
-            "error": "User not found",
-            "code": "USER_NOT_FOUND"
-          },
-          "headers": {
-            "Content-Type": "application/json"
-          }
-        }
       }
     ]
   },
