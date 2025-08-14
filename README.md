@@ -3,7 +3,7 @@
 This is the code used in the workshop about "Code generation for 10x productivity - no AI"
 at GopherCon UK 2025.
 
-You can check the slides [here](./slides).
+You can check the slides [here](./deck).
 
 ## Setting up
 
