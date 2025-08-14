@@ -63,5 +63,5 @@ go run ./cmd \
 
 Add this to your target file.
 ```go
-//go:generate cmd -input=handler.go -output=handler_test.go -testcases=testdata/testcases.json
+//go:generate cmd -input=handler.go -output=handler_test.go -testcases=testdata/testcases.json -request-type=CreateUserRequest
 ```
